@@ -5,4 +5,31 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
- 
+
+model Recipe {
+  id           Int      @id @default(autoincrement())
+  grindSize    String?
+  coffeeAmount Float
+  waterAmount  Float
+  waterTemp    Int
+  brewTime     Int
+  dripper      String?
+  filterType   String?
+  memo         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  steps Step[]
+}
+
+model Step {
+  id               Int    @id @default(autoincrement())
+  recipeId         Int
+  stepNumber       Int
+  cumulativeAmount Float
+  timeSeconds      Int
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, stepNumber])
+}
