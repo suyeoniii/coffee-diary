@@ -6,30 +6,44 @@ datasource db {
   provider = "postgresql"
 }
 
-model Recipe {
-  id           Int      @id @default(autoincrement())
-  grindSize    String?
-  coffeeAmount Float
-  waterAmount  Float
-  waterTemp    Int
-  brewTime     Int
-  dripper      String?
-  filterType   String?
-  memo         String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  steps Step[]
+enum BrewMethod {
+  POUR_OVER
+  OTHER
 }
 
-model Step {
+model BrewLog {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  brewedAt   DateTime @default(now())
+  title      String
+  recipeName String?  // 리스트에 표시할 레시피 이름 (ex. 테츠카츠야 4:6)
+  note       String?
+  rating     Int?     // 1~5는 앱단 검증
+
+  method BrewMethod @default(POUR_OVER)
+
+  // 레시피 관련 값 (필요한 것만 optional)
+  grindSize    String?
+  coffeeAmount Float?  // g
+  waterAmount  Float?  // g
+  waterTemp    Int?    // °C
+  brewTimeSec  Int?    // 총 시간(초)
+  dripper      String?
+  filterType   String?
+
+  steps BrewStep[]
+}
+
+model BrewStep {
   id               Int    @id @default(autoincrement())
-  recipeId         Int
+  brewLogId        Int
   stepNumber       Int
-  cumulativeAmount Float
-  timeSeconds      Int
+  cumulativeAmount Float  // 누적 물량(g)
+  timeSeconds      Int    // 시작 기준 시간(초)
 
-  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  brewLog BrewLog @relation(fields: [brewLogId], references: [id], onDelete: Cascade)
 
-  @@unique([recipeId, stepNumber])
+  @@unique([brewLogId, stepNumber])
 }
