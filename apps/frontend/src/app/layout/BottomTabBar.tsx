@@ -31,7 +31,7 @@ export function BottomTabBar() {
   return (
     <nav className="mb-3 rounded-3xl bg-white/60 p-2 shadow-md backdrop-blur">
       <div className="flex item-stretch gap-2">
-        <TabItem to="/recipes" label="Recipes" icon={BookOpen} />
+        <TabItem to="/logs" label="Logs" icon={BookOpen} />
         <TabItem to="/beans" label="Beans" icon={Coffee} />
         <TabItem to="/settings" label="Settings" icon={Settings} />
       </div>

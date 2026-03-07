@@ -7,10 +7,10 @@ type AppShellProps = {
 
 export function AppShell({ children }: AppShellProps) {
   return (
-    <div className="min-h-dvh bg-[#f6f3ef] text-[#2a1f1a]">
+    <div className="min-h-dvh bg-[var(--background)] text-[#2a1f1a]">
       {/* Mobile-first container */}
-      <div className="mx-auto w-ful max-w-[520px]">
-        <main className="px-4 pb-[calc(84px+env(safe-area-inset-bottom))] pt-4">
+      <div className="w-ful mx-auto max-w-[520px]">
+        <main className="px-5 pt-10 pb-[calc(84px+env(safe-area-inset-bottom))]">
           {children}
         </main>
       </div>
