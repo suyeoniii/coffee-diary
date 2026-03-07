@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { formatCardDate } from "../lib/date";
+import { formatCardDate } from "../../../lib/date";
 import { Circle } from "lucide-react";
 
 type CoffeeLogCardProps = {

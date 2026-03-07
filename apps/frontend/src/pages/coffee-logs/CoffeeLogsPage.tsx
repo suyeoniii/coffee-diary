@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { CoffeeLogCard } from "../../components/CoffeeLogCard";
+import { CoffeeLogCard } from "./components/CoffeeLogCard";
 import { mockCoffeeLogs } from "./mock";
 
 export function CoffeeLogsPage() {
@@ -11,6 +11,7 @@ export function CoffeeLogsPage() {
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-full bg-[#5b3922] px-4 py-3 text-sm font-semibold text-white hover:bg-[#4a2d1a] focus:outline-none"
+            onClick={() => (window.location.href = "/logs/new")}
           >
             <Plus className="mr-1 h-4 w-4" />
             <span>New Log</span>

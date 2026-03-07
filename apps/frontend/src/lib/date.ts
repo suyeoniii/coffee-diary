@@ -16,3 +16,14 @@ export function formatCardDate(input: DateInput, locale = "en-US"): string {
     day: "2-digit",
   }).format(d);
 }
+
+export function formatDateString(input: DateInput): string {
+  const d = toDate(input);
+  if (!d) return "";
+
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  }).format(d);
+}
