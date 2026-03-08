@@ -26,8 +26,9 @@ body {
   --card-foreground: oklch(0.22 0.01 50);
   --popover: oklch(0.99 0.001 75);
   --popover-foreground: oklch(0.22 0.01 50);
-  --primary: #5b3922;
-  --primary-foreground: #fff;
+  --primary: oklch(37.944% 0.05998 53.967);
+  --primary-foreground: oklch(100% 0.00011 271.152);
   --border: oklch(0.91 0.008 75);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(55.553% 0.00006 271.152);
 }
