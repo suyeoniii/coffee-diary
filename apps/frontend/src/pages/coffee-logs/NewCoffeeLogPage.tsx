@@ -1,6 +1,8 @@
 import { ArrowLeft, Plus, Star, X } from "lucide-react";
 import { formatDateString } from "../../lib/date";
 import { useState } from "react";
+import { CreateBrewLogPayload } from "../../types/log";
+import { createCoffeeLog } from "../../app/api/logs";
 
 type StepForm = {
   id: number;
@@ -13,7 +15,7 @@ export function NewCoffeeLogPage() {
   const [form, setForm] = useState({
     title: "",
     brewedAt: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
-    brewMethod: "",
+    brewMethod: "POUR_OVER",
     dripper: "",
     grindSize: "",
     beanAmount: "",
@@ -25,6 +27,36 @@ export function NewCoffeeLogPage() {
   });
 
   const canSave = form.title.trim().length > 0;
+
+  const handleSave = async () => {
+    if (!canSave) return;
+
+    const payload: CreateBrewLogPayload = {
+      brewedAt: form.brewedAt,
+      title: form.title.trim(),
+      note: form.note.trim() || undefined,
+      rating: form.rating,
+      grindSize: form.grindSize.trim() || undefined,
+      coffeeAmount: form.beanAmount.trim()
+        ? Number(form.beanAmount)
+        : undefined,
+      waterAmount: form.waterAmount.trim()
+        ? Number(form.waterAmount)
+        : undefined,
+      waterTemp: form.waterTemp.trim() ? Number(form.waterTemp) : undefined,
+      dripper: form.dripper.trim() || undefined,
+      method: form.brewMethod as any,
+      steps: [],
+    };
+
+    try {
+      const result = await createCoffeeLog(payload);
+      console.log("Coffee log created:", result);
+      // Redirect to the new log's page or show success message
+    } catch (error) {
+      console.error("Error creating coffee log:", error);
+    }
+  };
 
   const [steps, setSteps] = useState<StepForm[]>([
     { id: 1, stepNumber: 1, amount: "", time: "" },
@@ -56,7 +88,7 @@ export function NewCoffeeLogPage() {
     <div>
       <div className="position:sticky top-0 mb-6 flex items-center justify-between">
         <button
-          className="px-4text-sm flex items-center gap-2 font-semibold text-gray-700 hover:text-gray-500"
+          className="flex items-center gap-2 text-sm font-semibold text-[var(--muted-foreground)]"
           onClick={() => window.history.back()}
         >
           <ArrowLeft className="mr-1 h-4 w-4" />
@@ -65,14 +97,14 @@ export function NewCoffeeLogPage() {
         <button
           type="button"
           className="inline-flex items-center gap-2 rounded-full bg-[#5b3922] px-4 py-3 text-sm font-semibold text-white hover:bg-[#4a2d1a] focus:outline-none disabled:bg-[#eeede9] disabled:text-[#737373]"
-          onClick={() => (window.location.href = "/logs/new")}
+          onClick={handleSave}
           disabled={!canSave}
         >
           <span>Save Log</span>
         </button>
       </div>
       <h1 className="mb-2 text-2xl font-bold">New Coffee Log</h1>
-      <span className="text-gray-400">
+      <span className="text-[var(--muted-foreground)]">
         {formatDateString(new Date().toISOString())}
       </span>
       {/* Form fields */}
@@ -92,7 +124,11 @@ export function NewCoffeeLogPage() {
         value={form.brewedAt}
         onChange={(e) => setForm({ ...form, brewedAt: e.target.value })}
       />
-      <select className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-gray-400 focus:ring-2 focus:ring-[#5b3922] focus:outline-none">
+      <select
+        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-gray-400 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+        onChange={(e) => setForm({ ...form, brewMethod: e.target.value })}
+        value={form.brewMethod}
+      >
         <option value="" className="text-gray-400">
           Brew Method
         </option>
@@ -103,13 +139,19 @@ export function NewCoffeeLogPage() {
       <label className="mt-4 block text-sm font-medium text-gray-700">
         Brew Parameters
       </label>
-      <input
-        type="text"
-        placeholder="Dripper"
-        className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
-        value={form.dripper}
+      <select
+        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-gray-400 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
         onChange={(e) => setForm({ ...form, dripper: e.target.value })}
-      />
+        value={form.dripper}
+      >
+        <option value="" className="text-gray-400">
+          Dripper Type
+        </option>
+        <option value="HARIO_V60">Hario V60</option>
+        <option value="ORIGAMI">Origami</option>
+        <option value="KALITA">Kalita</option>
+        <option value="OTHER">Other</option>
+      </select>
       <div className="mt-2 flex gap-2">
         <input
           type="text"
@@ -118,29 +160,35 @@ export function NewCoffeeLogPage() {
           value={form.grindSize}
           onChange={(e) => setForm({ ...form, grindSize: e.target.value })}
         />
-        <input
-          type="number"
-          placeholder="Bean Amount (g)"
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
-          value={form.beanAmount}
-          onChange={(e) => setForm({ ...form, beanAmount: e.target.value })}
-        />
+        <span className="flex items-center gap-1">
+          <input
+            type="number"
+            placeholder="Bean Amount (g)"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+            value={form.beanAmount}
+            onChange={(e) => setForm({ ...form, beanAmount: e.target.value })}
+          />
+          <span className="text-[var(--muted-foreground)]">g</span>
+        </span>
       </div>
       <div className="mt-2 flex gap-2">
         <input
           type="number"
-          placeholder="Water Amount (g)"
+          placeholder="Water Amount"
           className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-3 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
           value={form.waterAmount}
           onChange={(e) => setForm({ ...form, waterAmount: e.target.value })}
         />
-        <input
-          type="number"
-          placeholder="Water Temp (°C)"
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-3 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
-          value={form.waterTemp}
-          onChange={(e) => setForm({ ...form, waterTemp: e.target.value })}
-        />
+        <span className="flex items-center gap-1">
+          <input
+            type="number"
+            placeholder="Water Temp (°C)"
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-3 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+            value={form.waterTemp}
+            onChange={(e) => setForm({ ...form, waterTemp: e.target.value })}
+          />
+          <span className="text-[var(--muted-foreground)]">°C</span>
+        </span>
       </div>
       {/* Steps */}
       <label className="mt-4 block text-sm font-medium text-gray-700">
