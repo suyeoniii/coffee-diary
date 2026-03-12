@@ -18,7 +18,7 @@ type CoffeeLogCardProps = {
 
 export function CoffeeLogCard({ log }: CoffeeLogCardProps) {
   return (
-    <Link to={`/${log.id}`}>
+    <Link to={`/logs/${log.id}`}>
       <div className="my-3 rounded-xl border border-[var(--border)] bg-white/80 p-5">
         <div className="mb-2 flex items-start justify-between">
           <div className="flex flex-col">
