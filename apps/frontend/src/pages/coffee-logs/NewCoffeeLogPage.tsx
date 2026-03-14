@@ -32,7 +32,7 @@ export function NewCoffeeLogPage() {
     if (!canSave) return;
 
     const payload: CreateBrewLogPayload = {
-      brewedAt: form.brewedAt,
+      brewedAt: new Date(form.brewedAt).toISOString(),
       title: form.title.trim(),
       note: form.note.trim() || undefined,
       rating: form.rating,
@@ -52,9 +52,11 @@ export function NewCoffeeLogPage() {
     try {
       const result = await createCoffeeLog(payload);
       console.log("Coffee log created:", result);
+      alert("Coffee log created successfully!");
       // Redirect to the new log's page or show success message
     } catch (error) {
       console.error("Error creating coffee log:", error);
+      alert("Failed to create coffee log. Please try again.");
     }
   };
 
