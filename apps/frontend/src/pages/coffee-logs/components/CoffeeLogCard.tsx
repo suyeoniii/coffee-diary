@@ -9,7 +9,7 @@ type CoffeeLogCardProps = {
     subtitle?: string;
     dripper?: string;
     brewedAt: string;
-    rating?: 1 | 2 | 3 | 4 | 5;
+    rating?: number;
     note?: string;
     tags?: string[];
   };

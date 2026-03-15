@@ -1,8 +1,26 @@
 import { Plus } from "lucide-react";
 import { CoffeeLogCard } from "./components/CoffeeLogCard";
 import { mockCoffeeLogs } from "./mock";
+import { useEffect, useState } from "react";
+import { fetchCoffeeLogs } from "../../app/api/logs";
+import { BrewLog } from "../../types/log";
 
 export function CoffeeLogsPage() {
+  const [logs, setLogs] = useState<BrewLog[]>([]);
+
+  useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        const data = await fetchCoffeeLogs();
+        console.log(data);
+        setLogs(data);
+      } catch (error) {
+        console.error("Error fetching coffee logs:", error);
+      }
+    };
+    fetchLogs();
+  }, []);
+
   return (
     <div className="flex h-full flex-col gap-6">
       <header className="flex h-full flex-col items-center justify-center gap-4">
@@ -19,6 +37,9 @@ export function CoffeeLogsPage() {
         </div>
       </header>
       <div className="text-center text-sm text-gray-500">
+        {logs.map((log) => (
+          <CoffeeLogCard key={log.id} log={log}></CoffeeLogCard>
+        ))}
         {mockCoffeeLogs.map((log) => (
           <CoffeeLogCard key={log.id} log={log}></CoffeeLogCard>
         ))}
