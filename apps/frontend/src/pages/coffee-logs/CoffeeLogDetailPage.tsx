@@ -1,4 +1,5 @@
-import { ArrowLeft, Pen } from "lucide-react";
+import { ArrowLeft, Ellipsis, EllipsisVertical, Pen } from "lucide-react";
+import { useState } from "react";
 
 export const CoffeeLogDetailPage = () => {
   const coffeeLog = {
@@ -10,9 +11,20 @@ export const CoffeeLogDetailPage = () => {
     note: "Bright acidity with floral notes. Loved the aroma!",
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMoreOptions = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleDelete = (id: number) => {
+    alert(`Delete log with id: ${id}`);
+    // Implement actual delete logic here (e.g., API call)
+  };
+
   return (
     <div>
-      <div className="position:sticky top-0 mb-6 flex items-center justify-between">
+      <div className="position:sticky relative top-0 mb-6 flex items-center justify-between">
         <button
           className="flex items-center gap-2 text-sm font-semibold text-[var(--muted-foreground)]"
           onClick={() => window.history.back()}
@@ -23,10 +35,29 @@ export const CoffeeLogDetailPage = () => {
         <button
           type="button"
           className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/80 px-4 py-2 text-sm text-[var(--muted-foreground)] focus:outline-none"
+          onClick={handleMoreOptions}
         >
-          <Pen className="mr-1 h-4 w-4" />
-          <span>Edit</span>
+          <Ellipsis className="h-4 w-4" />
         </button>
+        {isMenuOpen && (
+          <div className="absolute top-10 right-2 w-40 rounded-md border border-[var(--border)] bg-white shadow-lg">
+            <button
+              type="button"
+              className="hover:rounded-mdfocus:outline-none flex w-full items-center gap-2 px-4 py-2 text-sm text-[var(--muted-foreground)]"
+            >
+              <Pen className="h-4 w-4" />
+              <span>Edit</span>
+            </button>
+            <button
+              type="button"
+              className="flex w-full items-center gap-2 px-4 py-2 text-sm text-[var(--muted-foreground)] hover:rounded-md focus:outline-none"
+              onClick={() => handleDelete(coffeeLog.id)}
+            >
+              <EllipsisVertical className="h-4 w-4" />
+              <span>Delete</span>
+            </button>
+          </div>
+        )}
       </div>
       <span className="text-[var(--muted-foreground)]">
         {new Date(coffeeLog.brewedAt).toLocaleDateString()}
