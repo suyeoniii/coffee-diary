@@ -46,7 +46,11 @@ export function NewCoffeeLogPage() {
       waterTemp: form.waterTemp.trim() ? Number(form.waterTemp) : undefined,
       dripper: form.dripper.trim() || undefined,
       method: form.brewMethod as any,
-      steps: [],
+      steps: steps.map((step, i) => ({
+        stepNumber: i + 1,
+        cumulativeAmount: step.amount.trim() ? Number(step.amount) : undefined,
+        timeSeconds: step.time.trim() ? Number(step.time) : undefined,
+      })),
     };
 
     try {
@@ -84,6 +88,14 @@ export function NewCoffeeLogPage() {
     setSteps((prev) =>
       prev.map((step) => (step.id === id ? { ...step, [field]: value } : step)),
     );
+  };
+
+  const handleRating = (star: number) => {
+    console.log(star);
+    setForm((prev) => ({
+      ...prev,
+      rating: prev.rating === star ? 0 : star,
+    }));
   };
 
   return (
@@ -245,7 +257,8 @@ export function NewCoffeeLogPage() {
             <button
               key={star}
               type="button"
-              className="text-gray-300 hover:text-yellow-400 focus:outline-none"
+              className={`focus:outline-none ${form.rating >= star ? "text-[var(--primary)]" : "text-gray-300"}`}
+              onClick={() => handleRating(star)}
             >
               <Star className="h-6 w-6 fill-current" />
             </button>

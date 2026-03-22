@@ -3,8 +3,8 @@ export type BrewMethod = "POUR_OVER" | "OTHER";
 
 export type CreateBrewStepPayload = {
   stepNumber: number;
-  cumulativeAmount: number;
-  timeSeconds: number;
+  cumulativeAmount: number | undefined;
+  timeSeconds: number | undefined;
 };
 
 export type CreateBrewLogPayload = {
