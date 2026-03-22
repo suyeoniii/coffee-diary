@@ -28,6 +28,8 @@ body {
   --popover-foreground: oklch(0.22 0.01 50);
   --primary: oklch(37.944% 0.05998 53.967);
   --primary-foreground: oklch(100% 0.00011 271.152);
+  --secondary: oklab(95.48% -0.00048 0.0053);
+  --secondary-foreground: oklch(0.205 0 0);
   --border: oklch(0.91 0.008 75);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(55.553% 0.00006 271.152);
