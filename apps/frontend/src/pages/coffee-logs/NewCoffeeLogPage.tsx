@@ -117,12 +117,12 @@ export function NewCoffeeLogPage() {
           <span>Save Log</span>
         </button>
       </div>
-      <h1 className="mb-2 text-2xl font-bold">New Coffee Log</h1>
+      <h1 className="text-2xl font-bold">New Coffee Log</h1>
       <span className="text-[var(--muted-foreground)]">
         {formatDateString(new Date().toISOString())}
       </span>
       {/* Form fields */}
-      <label className="mt-4 block text-sm font-medium text-gray-700">
+      <label className="mt-4 block text-sm font-medium text-[var(--muted-foreground)]">
         Info
       </label>
       <input
@@ -139,26 +139,24 @@ export function NewCoffeeLogPage() {
         onChange={(e) => setForm({ ...form, brewedAt: e.target.value })}
       />
       <select
-        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-gray-400 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-[var(--muted-foreground)] focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
         onChange={(e) => setForm({ ...form, brewMethod: e.target.value })}
         value={form.brewMethod}
       >
-        <option value="" className="text-gray-400">
-          Brew Method
-        </option>
+        <option value="">Brew Method</option>
         <option value="POUR_OVER">Pour over</option>
         <option value="OTHER">Other</option>
       </select>
       {/* brew parameter */}
-      <label className="mt-4 block text-sm font-medium text-gray-700">
+      <label className="mt-4 block text-sm font-medium text-[var(--muted-foreground)]">
         Brew Parameters
       </label>
       <select
-        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-gray-400 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+        className="mt-4 w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-[var(--muted-foreground)] focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
         onChange={(e) => setForm({ ...form, dripper: e.target.value })}
         value={form.dripper}
       >
-        <option value="" className="text-gray-400">
+        <option value="" className="text-[var(--muted-foreground)]">
           Dripper Type
         </option>
         <option value="HARIO_V60">Hario V60</option>
@@ -170,11 +168,11 @@ export function NewCoffeeLogPage() {
         <input
           type="text"
           placeholder="Grind Size"
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+          className="mt-2 w-full flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
           value={form.grindSize}
           onChange={(e) => setForm({ ...form, grindSize: e.target.value })}
         />
-        <span className="flex items-center gap-1">
+        <span className="flex flex-1 items-center gap-1">
           <input
             type="number"
             placeholder="Bean Amount (g)"
@@ -182,18 +180,17 @@ export function NewCoffeeLogPage() {
             value={form.beanAmount}
             onChange={(e) => setForm({ ...form, beanAmount: e.target.value })}
           />
-          <span className="text-[var(--muted-foreground)]">g</span>
         </span>
       </div>
       <div className="mt-2 flex gap-2">
         <input
           type="number"
           placeholder="Water Amount"
-          className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-3 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
+          className="mt-2 w-full flex-1 rounded-md border border-gray-300 bg-white px-3 py-3 focus:ring-2 focus:ring-[#5b3922] focus:outline-none"
           value={form.waterAmount}
           onChange={(e) => setForm({ ...form, waterAmount: e.target.value })}
         />
-        <span className="flex items-center gap-1">
+        <span className="flex flex-1 items-center gap-1">
           <input
             type="number"
             placeholder="Water Temp (°C)"
@@ -201,11 +198,10 @@ export function NewCoffeeLogPage() {
             value={form.waterTemp}
             onChange={(e) => setForm({ ...form, waterTemp: e.target.value })}
           />
-          <span className="text-[var(--muted-foreground)]">°C</span>
         </span>
       </div>
       {/* Steps */}
-      <label className="mt-4 block text-sm font-medium text-gray-700">
+      <label className="mt-4 block text-sm font-medium text-[var(--muted-foreground)]">
         Pour Steps
       </label>
       {steps.map((step) => (
@@ -238,7 +234,7 @@ export function NewCoffeeLogPage() {
         <span>Add Step</span>
       </button>
       {/* memo */}
-      <label className="mt-4 block text-sm font-medium text-gray-700">
+      <label className="mt-4 block text-sm font-medium text-[var(--muted-foreground)]">
         Memo
       </label>
       <textarea
@@ -249,7 +245,7 @@ export function NewCoffeeLogPage() {
         onChange={(e) => setForm({ ...form, note: e.target.value })}
       />
       <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-[var(--muted-foreground)]">
           Rating
         </label>
         <div className="mt-1 flex items-center">
